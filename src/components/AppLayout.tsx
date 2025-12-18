@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Phone, Users, Settings, BarChart3, Activity, FileText, ClipboardList, Bot } from 'lucide-react';
+import { LayoutDashboard, Phone, Users, Settings, BarChart3, Activity, Bot, Inbox } from 'lucide-react';
 
 const NavItem = ({ to, icon: Icon, label }: { to: string; icon: any; label: string }) => {
     const location = useLocation();
@@ -50,9 +50,8 @@ export const AppLayout = () => {
                         <NavItem to="/calls" icon={Phone} label="Registro de Llamadas" />
 
                         <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-8">Operativa</p>
+                        <NavItem to="/inbox" icon={Inbox} label="Bandeja de Entrada" />
                         <NavItem to="/clients" icon={Users} label="Clientes" />
-                        <NavItem to="/tickets" icon={FileText} label="Casos de Soporte" />
-                        <NavItem to="/tasks" icon={ClipboardList} label="Tareas y Devoluciones" />
                         
 
                         <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-8">Configuración</p>
