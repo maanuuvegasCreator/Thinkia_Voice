@@ -4,16 +4,33 @@ import { cn } from '@/lib/utils';
 import { ActionSidePanel } from '@/components/ActionSidePanel';
 
 export const ActionCenter = () => {
-    // Mock Data - Merged Tasks & Tickets
+    // Mock Data - Telco / Data Plans Context
     const items = [
-        { id: '1', type: 'ticket', title: 'Fallo en validación de dirección', customer: 'Farmacia Llobregat', priority: 'Critical', status: 'Open', time: 'Hace 5 min', description: 'El cliente mencionó una dirección que no coincide con la base de datos. La IA no pudo confirmar el envío.' },
-        { id: '2', type: 'task', title: 'Confirmar interés en campaña', customer: 'Dr. Roberto M.', priority: 'High', status: 'Pending', time: 'Hace 25 min', description: 'Cliente mostró interés en "Pack Verano" pero colgó antes del cierre. Retomar llamada.' },
-        { id: '3', type: 'ticket', title: 'Solicitud de baja', customer: 'Clinica Dental Sur', priority: 'Medium', status: 'Open', time: 'Hace 1 hora', description: 'Cliente solicita hablar con supervisor para cancelar servicio.' },
-        { id: '4', type: 'task', title: 'Revisión de grabación (QA)', customer: 'Hospital General', priority: 'Low', status: 'Pending', time: 'Hace 3 horas', description: 'Validar si la IA respondió correctamente a la pregunta sobre facturación.' },
+        { id: '1', type: 'ticket', title: 'Error en Portabilidad (Vodafone -> Digi)', customer: 'Juan García', priority: 'Critical', status: 'Open', time: 'Hace 5 min', description: 'El proceso de portabilidad falló por "Documentación Incorrecta". La IA detectó frustración alta. Requiere intervención manual para corregir DNI.' },
+        { id: '2', type: 'task', title: 'Cierre Venta: Fibra 1Gb + 2 Líneas', customer: 'Marta López', priority: 'High', status: 'Pending', time: 'Hace 25 min', description: 'Cliente aceptó la oferta verbalmente pero falta la grabación legal de permanencia. Llamar para formalizar.' },
+        { id: '3', type: 'ticket', title: 'Consulta Cobertura Fuera de Zona', customer: 'Empresa Constructora S.L.', priority: 'Medium', status: 'Open', time: 'Hace 1 hora', description: 'Interés en 5 líneas de datos ilimitados pero la IA no pudo confirmar cobertura 5G en su ubicación exacta.' },
+        { id: '4', type: 'task', title: 'Retención: Oferta Contraoferta', customer: 'Carlos Ruiz', priority: 'Critical', status: 'Pending', time: 'Hace 2 horas', description: 'Cliente solicitó baja por precio. La IA ofreció descuento del 20%, cliente duda. Llamada de cierre necesaria.' },
+        { id: '5', type: 'task', title: 'Validación Datos Bancarios', customer: 'Sofía Martín', priority: 'Low', status: 'Pending', time: 'Hace 4 horas', description: 'Error en el dígito de control del IBAN facilitado a la IA.' },
     ];
 
     const [selectedItem, setSelectedItem] = useState<any>(null);
     const [filter, setFilter] = useState('all');
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredItems = items.filter(item => {
+        // Filter by Type/Status/Priority
+        if (filter === 'urgent' && item.priority !== 'Critical') return false;
+        if (filter === 'tickets' && item.type !== 'ticket') return false;
+        if (filter === 'tasks' && item.type !== 'task') return false;
+
+        // Filter by Search
+        if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            return item.title.toLowerCase().includes(q) || item.customer.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
+        }
+
+        return true;
+    });
 
     return (
         <div className="flex h-[calc(100vh-100px)] gap-6 animate-in fade-in duration-500">
@@ -26,7 +43,7 @@ export const ActionCenter = () => {
                     </h2>
                     <p className="text-muted-foreground flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        Supervisión en tiempo real • {items.length} pendientes
+                        Supervisión en tiempo real • {filteredItems.length} pendientes
                     </p>
                 </div>
 
@@ -42,7 +59,7 @@ export const ActionCenter = () => {
                                     filter === f ? "bg-white/10 text-white shadow-sm" : "text-muted-foreground hover:text-white hover:bg-white/5"
                                 )}
                             >
-                                {f}
+                                {f === 'all' ? 'Todos' : f === 'urgent' ? 'Urgentes' : f === 'tickets' ? 'Tickets' : 'Tareas'}
                             </button>
                         ))}
                     </div>
@@ -50,7 +67,9 @@ export const ActionCenter = () => {
                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <input 
                             type="text" 
-                            placeholder="Buscar en inbox..." 
+                            placeholder="Buscar cliente o caso..." 
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full bg-secondary/30 border border-white/5 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                         />
                     </div>
@@ -58,7 +77,7 @@ export const ActionCenter = () => {
 
                 {/* List Container */}
                 <div className="flex-1 overflow-y-auto pr-2 scrollbar-thin space-y-3">
-                    {items.map((item) => (
+                    {filteredItems.map((item) => (
                         <div 
                             key={item.id}
                             onClick={() => setSelectedItem(item as any)}

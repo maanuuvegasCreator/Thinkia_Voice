@@ -44,19 +44,20 @@ export const AppLayout = () => {
                     </div>
 
                     <nav className="space-y-1.5">
-                        <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-2">Plataforma</p>
+                        <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-2">Supervisión</p>
                         <NavItem to="/" icon={LayoutDashboard} label="Panel Principal" />
                         <NavItem to="/activity" icon={Activity} label="Actividad en Vivo" />
-                        <NavItem to="/calls" icon={Phone} label="Registro de Llamadas" />
-
-                        <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-8">Operativa</p>
+                        
+                        <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-8">Gestión</p>
                         <NavItem to="/inbox" icon={Inbox} label="Bandeja de Entrada" />
+                        <NavItem to="/calls" icon={Phone} label="Registro de Llamadas" />
                         <NavItem to="/clients" icon={Users} label="Clientes" />
                         
-
                         <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-8">Configuración</p>
+                        <NavItem to="/lines" icon={Phone} label="Líneas" />
                         <NavItem to="/agents" icon={Bot} label="Gestor de Agentes" />
                         <NavItem to="/campaigns" icon={BarChart3} label="Campañas" />
+                        <NavItem to="/users" icon={Users} label="Usuarios" />
                         <NavItem to="/settings" icon={Settings} label="Ajustes" />
                     </nav>
                 </div>

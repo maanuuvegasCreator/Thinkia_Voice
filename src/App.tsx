@@ -8,6 +8,8 @@ import { ActionCenter } from './views/ActionCenter';
 import { Clients } from './views/Clients';
 import { Campaigns } from './views/Campaigns';
 import { Settings } from './views/Settings';
+import { Users } from './views/Users';
+import { PhoneLines } from './views/PhoneLines';
 
 function App() {
   return (
@@ -19,8 +21,10 @@ function App() {
           <Route path="calls" element={<CallList />} />
           <Route path="inbox" element={<ActionCenter />} />
           <Route path="clients" element={<Clients />} />
+          <Route path="lines" element={<PhoneLines />} />
           <Route path="agents" element={<AgentBuilder />} />
           <Route path="campaigns" element={<Campaigns />} />
+          <Route path="users" element={<Users />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

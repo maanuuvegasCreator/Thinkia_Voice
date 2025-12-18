@@ -60,17 +60,16 @@ export const ActivityHeatmap = () => {
 
 export const WordCloud = () => {
     const words = [
-        { text: 'Soporte', size: 'text-4xl', color: 'text-blue-400' },
-        { text: 'Ventas', size: 'text-2xl', color: 'text-emerald-400' },
-        { text: 'Factura', size: 'text-xl', color: 'text-muted-foreground' },
-        { text: 'Incidencia', size: 'text-3xl', color: 'text-rose-400' },
-        { text: 'Envío', size: 'text-lg', color: 'text-cyan-400' },
-        { text: 'Cliente', size: 'text-2xl', color: 'text-violet-400' },
-        { text: 'Contrato', size: 'text-3xl', color: 'text-indigo-400' },
-        { text: 'Stock', size: 'text-lg', color: 'text-muted-foreground' },
-        { text: 'Oferta', size: 'text-base', color: 'text-amber-400' },
-        { text: 'Gracias', size: 'text-xl', color: 'text-emerald-500' },
-        { text: 'Pedido', size: 'text-2xl', color: 'text-fuchsia-400' },
+        { text: 'Latencia', size: 'text-3xl', color: 'text-rose-400' },
+        { text: 'Audio', size: 'text-2xl', color: 'text-blue-400' },
+        { text: 'Transferencia', size: 'text-xl', color: 'text-emerald-400' },
+        { text: 'Silencio', size: 'text-lg', color: 'text-muted-foreground' },
+        { text: 'Voz Robótica', size: 'text-xl', color: 'text-amber-400' },
+        { text: 'Interrupción', size: 'text-2xl', color: 'text-violet-400' },
+        { text: 'Volumen', size: 'text-lg', color: 'text-cyan-400' },
+        { text: 'Ruido Fondo', size: 'text-base', color: 'text-muted-foreground' },
+        { text: 'Codec', size: 'text-sm', color: 'text-indigo-400' },
+        { text: 'Soporte', size: 'text-3xl', color: 'text-white' },
     ];
 
     return (

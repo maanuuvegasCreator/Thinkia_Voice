@@ -20,7 +20,11 @@ interface ActionSidePanelProps {
   onClose: () => void;
 }
 
+import { useNavigate } from 'react-router-dom';
+
 export const ActionSidePanel = ({ item, isOpen, onClose }: ActionSidePanelProps) => {
+  const navigate = useNavigate();
+  
   if (!item) return null;
 
   return (
@@ -67,7 +71,10 @@ export const ActionSidePanel = ({ item, isOpen, onClose }: ActionSidePanelProps)
                 </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
-                <button className="flex items-center justify-center gap-2 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-medium text-slate-300 transition-colors">
+                <button 
+                  onClick={() => navigate(`/clients?id=${item.customer}`)}
+                  className="flex items-center justify-center gap-2 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-medium text-slate-300 transition-colors"
+                >
                     <User className="w-3.5 h-3.5" /> Ver Perfil
                 </button>
                 <button className="flex items-center justify-center gap-2 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-medium text-slate-300 transition-colors">

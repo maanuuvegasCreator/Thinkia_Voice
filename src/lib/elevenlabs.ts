@@ -13,8 +13,9 @@ export const elevenLabsApi = axios.create({
 
 export interface CallHistoryItem {
     conversation_id: string;
+    agent_id?: string; // Added for BI
     start_time_unix_secs: number;
-    end_time_unix_secs?: number; // Add this
+    end_time_unix_secs?: number;
     duration_secs: number;
     status: string;
     transcript?: {
@@ -27,6 +28,10 @@ export interface CallHistoryItem {
         call_successful?: boolean;
     };
 }
+// ... (Agent interface unchanged)
+
+// ... (getCallHistory implementation)
+
 
 export interface Agent {
     agent_id: string;
