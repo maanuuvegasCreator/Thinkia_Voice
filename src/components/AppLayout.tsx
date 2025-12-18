@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Phone, Users, Settings, BarChart3, Database } from 'lucide-react';
+import { LayoutDashboard, Phone, Users, Settings, BarChart3, Activity, FileText, ClipboardList, Bot } from 'lucide-react';
 
 const NavItem = ({ to, icon: Icon, label }: { to: string; icon: any; label: string }) => {
     const location = useLocation();
@@ -31,14 +31,14 @@ export const AppLayout = () => {
             <aside className="w-72 glass flex flex-col z-20 transition-all duration-500 relative">
                 <div className="absolute inset-y-0 right-0 w-[1px] bg-gradient-to-b from-transparent via-white/[0.05] to-transparent"></div>
 
-                <div className="p-8">
+                <div className="p-8 flex-1 overflow-y-auto scrollbar-thin">
                     <div className="flex items-center gap-3 mb-10">
                         <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group">
                             <div className="absolute inset-0 bg-blue-400 blur-lg opacity-40 group-hover:opacity-60 transition-opacity"></div>
                             <Phone className="w-5 h-5 fill-current relative z-10" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold tracking-tight text-foreground dark:text-white drop-shadow-sm">Thinkia</h1>
+                            <img className="h-6 w-auto drop-shadow-sm object-contain" src='https://thinkia.com/wp-content/uploads/2025/08/Logo.svg' alt="Thinkia" />
                             <p className="text-[10px] font-bold text-blue-600 dark:text-blue-400 tracking-[0.2em] uppercase">Voice AI</p>
                         </div>
                     </div>
@@ -46,19 +46,23 @@ export const AppLayout = () => {
                     <nav className="space-y-1.5">
                         <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-2">Plataforma</p>
                         <NavItem to="/" icon={LayoutDashboard} label="Panel Principal" />
+                        <NavItem to="/activity" icon={Activity} label="Actividad en Vivo" />
                         <NavItem to="/calls" icon={Phone} label="Registro de Llamadas" />
 
                         <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-8">Operativa</p>
-                        <NavItem to="/operations" icon={Database} label="Operaciones" />
-                        <NavItem to="/agents" icon={Users} label="Gestor de Agentes" />
+                        <NavItem to="/clients" icon={Users} label="Clientes" />
+                        <NavItem to="/tickets" icon={FileText} label="Casos de Soporte" />
+                        <NavItem to="/tasks" icon={ClipboardList} label="Tareas y Devoluciones" />
+                        
 
                         <p className="px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 mt-8">Configuración</p>
+                        <NavItem to="/agents" icon={Bot} label="Gestor de Agentes" />
                         <NavItem to="/campaigns" icon={BarChart3} label="Campañas" />
                         <NavItem to="/settings" icon={Settings} label="Ajustes" />
                     </nav>
                 </div>
 
-                <div className="mt-auto p-6 border-t border-white/[0.05] bg-secondary/30">
+                <div className="p-6 border-t border-white/[0.05] bg-secondary/30">
                     <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3 overflow-hidden">
                             <div className="w-9 h-9 min-w-[2.25rem] rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400 ring-2 ring-white/20 shadow-sm"></div>
@@ -74,7 +78,7 @@ export const AppLayout = () => {
             <main className="flex-1 overflow-auto relative bg-background">
                 {/* Dynamic Background Glows */}
                 <div className="fixed top-0 left-0 w-full h-[500px] bg-blue-600/10 blur-[100px] pointer-events-none rounded-full translate-y-[-50%]"></div>
-                <div className="p-8 max-w-7xl mx-auto pt-10 min-h-screen pb-20">
+                <div className="p-8 max-w-7xl mx-auto pt-6 pb-6 h-full">
                     <Outlet />
                 </div>
             </main>

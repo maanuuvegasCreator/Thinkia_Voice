@@ -61,14 +61,15 @@ export const Settings = () => {
                                     <th className="px-6 py-3 font-medium text-muted-foreground">Número de Teléfono</th>
                                     <th className="px-6 py-3 font-medium text-muted-foreground">Región</th>
                                     <th className="px-6 py-3 font-medium text-muted-foreground">Agente Asignado</th>
+                                    <th className="px-6 py-3 font-medium text-muted-foreground">Contexto / Campaña</th>
                                     <th className="px-6 py-3 font-medium text-muted-foreground">Estado</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-border/50">
                                 {[
-                                    { num: '+1 (555) 012-3456', region: 'EE.UU. Este', agent: 'Agente Soporte', status: 'Activo' },
-                                    { num: '+1 (555) 012-7890', region: 'EE.UU. Oeste', agent: 'Agente Soporte', status: 'Activo' },
-                                    { num: '+34 91 123 45 67', region: 'España Central', agent: 'Soporte ES', status: 'Mantenimiento' },
+                                    { num: '+1 (555) 012-3456', region: 'EE.UU. Este', agent: 'Agente Soporte', context: 'Soporte General (Nivel 1)', status: 'Activo' },
+                                    { num: '+1 (555) 012-7890', region: 'EE.UU. Oeste', agent: 'Agente Ventas', context: 'Campaña Black Friday', status: 'Activo' },
+                                    { num: '+34 91 123 45 67', region: 'España Central', agent: 'Soporte ES', context: 'Incidencias Técnicas', status: 'Mantenimiento' },
                                 ].map((row, i) => (
                                     <tr key={i}>
                                         <td className="px-6 py-4 font-mono">{row.num}</td>
@@ -76,7 +77,13 @@ export const Settings = () => {
                                             <Globe className="w-3 h-3 text-muted-foreground" />
                                             {row.region}
                                         </td>
-                                        <td className="px-6 py-4">{row.agent}</td>
+                                        <td className="px-6 py-4 text-primary font-medium">{row.agent}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                                {row.context}
+                                            </div>
+                                        </td>
                                         <td className="px-6 py-4">
                                             <span className={cn("inline-flex items-center px-2 py-0.5 rounded text-xs font-medium",
                                                 row.status === 'Activo' ? "bg-emerald-500/10 text-emerald-500" : "bg-amber-500/10 text-amber-500"

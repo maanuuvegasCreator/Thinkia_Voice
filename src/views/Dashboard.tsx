@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { StatsCard } from '@/components/StatsCard';
 import { Phone, Clock, CreditCard, Users, FileText, CheckCircle2 } from 'lucide-react';
-import { getCallHistory, getAgents, type CallHistoryItem, type Agent } from '@/lib/elevenlabs';
+import { getCallHistory, getAgents } from '@/lib/elevenlabs';
 import { ActivityHeatmap, WordCloud } from '@/components/Visualizations';
-import { LiveFeed } from '@/components/LiveFeed';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
 export const Dashboard = () => {
-    const navigate = useNavigate();
     const [stats, setStats] = useState({
         totalCalls: 0,
         totalMinutes: 0,
@@ -19,8 +16,6 @@ export const Dashboard = () => {
         negativeSentiment: 0,
         totalAgents: 0,
     });
-    const [calls, setCalls] = useState<CallHistoryItem[]>([]);
-    const [loading, setLoading] = useState(true);
 
     const [statusData, setStatusData] = useState<any[]>([]);
     const [typeData, setTypeData] = useState<any[]>([]);
@@ -33,7 +28,7 @@ export const Dashboard = () => {
                     getAgents()
                 ]);
 
-                setCalls(history);
+
 
                 let totalDurSecs = 0;
                 let success = 0;
@@ -51,7 +46,7 @@ export const Dashboard = () => {
 
                 // Mocking Cost logic as approx $0.05/min for demo
                 const totalMinutes = Math.round(totalDurSecs / 60);
-                const cost = (totalMinutes * 0.05).toFixed(2);
+                const cost = (totalMinutes * 0.45).toFixed(2);
 
                 const positiveCount = history.filter(c => c.analysis?.user_sentiment === 'Positive').length;
                 const negativeCount = history.filter(c => c.analysis?.user_sentiment === 'Negative').length;
@@ -82,7 +77,7 @@ export const Dashboard = () => {
             } catch (err) {
                 console.error(err);
             } finally {
-                setLoading(false);
+                // Loaded
             }
         };
 
@@ -123,9 +118,9 @@ export const Dashboard = () => {
                 />
                 <StatsCard
                     title="Coste Est."
-                    value={`$${stats.totalCost}`}
+                    value={`€${stats.totalCost}`}
                     icon={CreditCard}
-                    description="Calc. $0.05/min"
+                    description="Calc. €0.45/min"
                 />
                 <StatsCard
                     title="Tasa de Éxito"
@@ -196,8 +191,11 @@ export const Dashboard = () => {
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
-                                <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} />
-                                <Legend />
+                                <Tooltip
+                                    contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }}
+                                    itemStyle={{ color: '#fff' }}
+                                />
+                                <Legend wrapperStyle={{ color: '#fff' }} />
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
@@ -210,71 +208,6 @@ export const Dashboard = () => {
                 <WordCloud />
             </div>
 
-            {/* Data & Activity Grid */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                {/* Recent Calls Table */}
-                <div className="xl:col-span-2 glass-card rounded-xl overflow-hidden flex flex-col">
-                    <div className="p-6 border-b border-white/[0.05] flex items-center justify-between">
-                        <h3 className="text-lg font-semibold flex items-center gap-2 text-foreground">
-                            <span className="w-1 h-6 bg-emerald-500 rounded-full"></span>
-                            Actividad Reciente
-                        </h3>
-                        <button
-                            onClick={() => navigate('/calls')}
-                            className="text-sm text-blue-500 hover:text-blue-400 hover:underline font-medium transition-colors"
-                        >
-                            Ver Todo
-                        </button>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm text-left">
-                            <thead className="bg-muted/30">
-                                <tr>
-                                    <th className="px-6 py-4 font-medium text-muted-foreground">ID Llamada</th>
-                                    <th className="px-6 py-4 font-medium text-muted-foreground">Estado</th>
-                                    <th className="px-6 py-4 font-medium text-muted-foreground">Duración</th>
-                                    <th className="px-6 py-4 font-medium text-muted-foreground">Sentimiento</th>
-                                    <th className="px-6 py-4 font-medium text-muted-foreground">Hora</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-white/[0.05]">
-                                {calls.slice(0, 5).map((call) => (
-                                    <tr key={call.conversation_id} className="hover:bg-white/[0.02] transition-colors group">
-                                        <td className="px-6 py-4 font-mono text-xs text-muted-foreground group-hover:text-foreground transition-colors">{(call.conversation_id || 'unknown').slice(0, 8)}...</td>
-                                        <td className="px-6 py-4">
-                                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${call.status === 'completed'
-                                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                                                : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
-                                                }`}>
-                                                {call.status}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 font-medium text-foreground">
-                                            {Math.floor(call.duration_secs / 60)}:{(call.duration_secs % 60).toFixed(0).padStart(2, '0')}
-                                        </td>
-                                        <td className="px-6 py-4 text-foreground">
-                                            {call.analysis?.user_sentiment || 'Neutral'}
-                                        </td>
-                                        <td className="px-6 py-4 text-muted-foreground">
-                                            {new Date(call.start_time_unix_secs * 1000).toLocaleTimeString('es-ES')}
-                                        </td>
-                                    </tr>
-                                ))}
-                                {calls.length === 0 && !loading && (
-                                    <tr>
-                                        <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">No se encontraron llamadas recientes.</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                {/* Live Data Feed */}
-                <div className="xl:col-span-1 h-[500px] xl:h-auto">
-                    <LiveFeed />
-                </div>
-            </div>
         </div>
     );
 };
