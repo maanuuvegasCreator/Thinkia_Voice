@@ -76,13 +76,13 @@ export const Dashboard = () => {
                     };
                 });
 
-                // Set Stats
-                const totalMinutes = Math.round(totalDurSecs / 60);
-                const cost = (totalMinutes * 0.16).toFixed(2); 
+                // Calculate Stats
+                const exactMinutes = totalDurSecs / 60;
+                const cost = (exactMinutes * 0.45).toFixed(2); 
 
                 setStats({
                     totalCalls: history.length,
-                    totalMinutes,
+                    totalMinutes: Number(exactMinutes.toFixed(1)),
                     totalCost: Number(cost),
                     successfulCalls: success,
                     avgDuration: history.length ? Math.round(totalDurSecs / history.length) : 0,
@@ -140,7 +140,7 @@ export const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatsCard title="Duración Media" value={`${stats.avgDuration}s`} icon={Clock} description="Tiempo medio / llamada" className="bg-card/50" />
                 <StatsCard title="Consumo Voz" value={`${stats.totalMinutes} min`} icon={BarChart3} description={`${stats.totalCalls} llamadas totales`} className="bg-card/50" />
-                <StatsCard title="Coste Operativo" value={`€${stats.totalCost}`} icon={CreditCard} description="Est. €0.16 / minuto" className="bg-card/50" />
+                <StatsCard title="Coste Operativo" value={`€${stats.totalCost}`} icon={CreditCard} description="Est. €0.45 / minuto" className="bg-card/50" />
                 <StatsCard title="Tasa de Éxito" value={`${stats.totalCalls ? Math.round((stats.successfulCalls / stats.totalCalls) * 100) : 0}%`} icon={CheckCircle2} description="Conversaciones completadas" className="bg-card/50" />
             </div>
 

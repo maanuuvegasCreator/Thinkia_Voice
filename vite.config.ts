@@ -11,6 +11,7 @@ export default defineConfig({
     },
   },
   server: {
+    allowedHosts: ['aivoice.thinkia.com'],
     proxy: {
       '/api': {
         target: 'https://api.elevenlabs.io/v1',
